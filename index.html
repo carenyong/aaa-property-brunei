@@ -1702,15 +1702,18 @@ target="_blank">
 </div>
 
 <script>
-window.addEventListener('load', function () {
+function showVisitorCount() {
     if (window.goatcounter && window.goatcounter.visit_count) {
         window.goatcounter.visit_count({
             append: '#visitor-count',
             type: 'site',
             no_branding: true
         });
+    } else {
+        setTimeout(showVisitorCount, 500);
     }
-});
+}
+showVisitorCount();
 </script>
 <footer>
 © 2026 AAA Property Brunei. All Rights Reserved.
