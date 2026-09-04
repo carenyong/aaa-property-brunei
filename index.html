@@ -1702,18 +1702,14 @@ target="_blank">
 </div>
 
 <script>
-function showVisitorCount() {
-    if (window.goatcounter && window.goatcounter.visit_count) {
-        window.goatcounter.visit_count({
-            append: '#visitor-count',
-            path: 'TOTAL',
-            no_branding: true
-        });
-    } else {
-        setTimeout(showVisitorCount, 500);
-    }
-}
-showVisitorCount();
+fetch('https://aaapropertybrunei.goatcounter.com/counter/TOTAL.json')
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById('visitor-count').textContent = data.count;
+    })
+    .catch(() => {
+        document.getElementById('visitor-count').textContent = '';
+    });
 </script>
 <footer>
 © 2026 AAA Property Brunei. All Rights Reserved.
