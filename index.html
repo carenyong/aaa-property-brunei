@@ -1697,7 +1697,21 @@ target="_blank">
 <script data-goatcounter="https://aaapropertybrunei.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
     
+<div style="text-align:center; padding:20px; font-size:18px;">
+👁️ Views: <span id="visitor-count">...</span>
+</div>
 
+<script>
+window.addEventListener('load', function () {
+    if (window.goatcounter && window.goatcounter.visit_count) {
+        window.goatcounter.visit_count({
+            append: '#visitor-count',
+            type: 'site',
+            no_branding: true
+        });
+    }
+});
+</script>
 <footer>
 © 2026 AAA Property Brunei. All Rights Reserved.
 </footer>
