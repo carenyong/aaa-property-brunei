@@ -1731,12 +1731,18 @@ function copyWebsiteLink() {
 </script>
 <footer>
 © 2026 AAA Property Brunei. All Rights Reserved.
-    <br>
-<a href="#" style="color:white;" onclick="document.getElementById('privacy').style.display='block'; return false;">Privacy Policy</a>
-<div id="privacy" style="margin-top:20px; font-size:14px;">
-<strong>Privacy Policy</strong><br>
-AAA Property Brunei respects your privacy. Information you provide through WhatsApp or property enquiries will only be used to respond to your enquiry, arrange property viewings, bookings, or provide information about our properties. We do not sell your personal information to third parties.
+<br>
+
+<a href="#" style="color:white;"
+onclick="var p=document.getElementById('privacy'); p.style.display=(p.style.display==='none' ? 'block' : 'none'); return false;">
+Privacy Policy
+</a>
+
+<div id="privacy" style="display:none; margin:15px auto 0; padding:15px; max-width:800px; font-size:14px;">
+<strong>Privacy Policy</strong><br><br>
+AAA Property Brunei respects your privacy. Information you provide through WhatsApp or property enquiries will only be used to respond to your enquiries and assist with property-related services.
 </div>
+
 </footer>
 
 </body>
