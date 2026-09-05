@@ -1711,7 +1711,7 @@ target="_blank">
 </div>
 
 <script>
-fetch('https://aaapropertybrunei.goatcounter.com/counter/TOTAL.json')
+fetch('https://aaapropertybrunei.goatcounter.com/counter/TOTAL.json?t=' + Date.now())
     .then(response => response.json())
     .then(data => {
         document.getElementById('visitor-count').textContent = data.count;
