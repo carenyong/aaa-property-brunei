@@ -2169,7 +2169,12 @@ function shareProperty(propertyId) {
             event: true
         });
     }
+const counter = document.getElementById('share-' + propertyId);
 
+if (counter) {
+    let current = parseInt(counter.textContent) || 0;
+    counter.textContent = current + 1;
+}
     if (navigator.share) {
         navigator.share({
             title: 'AAA Property Brunei',
