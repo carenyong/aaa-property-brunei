@@ -2143,8 +2143,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
-<script>
-function likeProperty(propertyId) {
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://kwkghusbgfesvppnvere.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_pD7sfwGgMpzE9VFW4RbN-Q_YhQQdxUV';
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+async function likeProperty(propertyId) {
 
     const likedKey = 'liked-' + propertyId;
 
@@ -2152,25 +2160,56 @@ function likeProperty(propertyId) {
         alert('❤️ You already liked this property.');
         return;
     }
+const { data: existingLike, error: readError } = await supabaseClient
+  .from('property_likes')
+  .select('likes')
+  .eq('property_id', propertyId)
+  .maybeSingle();
 
-    if (window.goatcounter) {
-        window.goatcounter.count({
-            path: 'like-' + propertyId,
-            title: 'Like ' + propertyId,
-            event: true
-        });
-    }
+if (readError) {
+  alert('Unable to save your like. Please try again.');
+  return;
+}
 
-    const counter = document.getElementById('like-' + propertyId);
+let newLikes;
 
-    if (counter) {
-        let current = parseInt(counter.textContent) || 0;
-        counter.textContent = current + 1;
-    }
+if (existingLike) {
+  newLikes = existingLike.likes + 1;
 
-    localStorage.setItem(likedKey, 'yes');
+  const { error: updateError } = await supabaseClient
+    .from('property_likes')
+    .update({ likes: newLikes })
+    .eq('property_id', propertyId);
 
-    alert('❤️ Thank you for liking this property!');
+  if (updateError) {
+    alert('Unable to save your like. Please try again.');
+    return;
+  }
+} else {
+  newLikes = 1;
+
+  const { error: insertError } = await supabaseClient
+    .from('property_likes')
+    .insert({
+      property_id: propertyId,
+      likes: 1
+    });
+
+  if (insertError) {
+    alert('Unable to save your like. Please try again.');
+    return;
+  }
+}
+   const counter = document.getElementById('like-' + propertyId);
+
+  if (counter) {
+   
+   counter.textContent = newLikes;
+  }
+
+  localStorage.setItem(likedKey, 'yes');
+
+  alert('❤️ Thank you for liking this property!');
 }
 
 function shareProperty(propertyId) {
