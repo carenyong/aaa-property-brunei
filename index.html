@@ -2152,7 +2152,12 @@ function likeProperty(propertyId) {
             event: true
         });
     }
+const counter = document.getElementById('like-' + propertyId);
 
+if (counter) {
+    let current = parseInt(counter.textContent) || 0;
+    counter.textContent = current + 1;
+}
     alert('❤️ Thank you for liking this property!');
 }
 
