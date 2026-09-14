@@ -2145,6 +2145,14 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 <script>
 function likeProperty(propertyId) {
+
+    const likedKey = 'liked-' + propertyId;
+
+    if (localStorage.getItem(likedKey)) {
+        alert('❤️ You already liked this property.');
+        return;
+    }
+
     if (window.goatcounter) {
         window.goatcounter.count({
             path: 'like-' + propertyId,
@@ -2152,12 +2160,16 @@ function likeProperty(propertyId) {
             event: true
         });
     }
-const counter = document.getElementById('like-' + propertyId);
 
-if (counter) {
-    let current = parseInt(counter.textContent) || 0;
-    counter.textContent = current + 1;
-}
+    const counter = document.getElementById('like-' + propertyId);
+
+    if (counter) {
+        let current = parseInt(counter.textContent) || 0;
+        counter.textContent = current + 1;
+    }
+
+    localStorage.setItem(likedKey, 'yes');
+
     alert('❤️ Thank you for liking this property!');
 }
 
