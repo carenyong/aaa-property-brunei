@@ -432,17 +432,19 @@ target="_blank">
 💬 Check Availability on WhatsApp
 </a>
 
-    <div style="margin-top:20px;">
-    <span class="likebtn-wrapper"
-          data-identifier="daily-pandan-3-bedroom"
-          data-dislike_enabled="false"
-          data-icon_dislike_show="false"
-          data-counter_zero_show="true"></span>
+   <div style="margin-top:20px;">
 
-    <button onclick="copyWebsiteLink();"
-            style="margin-left:15px; padding:8px 15px; cursor:pointer;">
-        📤 Share
-    </button>
+<button onclick="likeProperty('daily-pandan-3-bedroom')" 
+        style="padding:8px 15px; cursor:pointer;">
+❤️ Like <span id="like-daily-pandan-3-bedroom">0</span>
+</button>
+
+<button onclick="shareProperty('daily-pandan-3-bedroom')" 
+        style="margin-left:15px; padding:8px 15px; cursor:pointer;">
+📤 Share <span id="share-daily-pandan-3-bedroom">0</span>
+</button>
+
+</div>
 </div>
 
 </div>
@@ -2141,6 +2143,38 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 </script>
+<script>
+function likeProperty(propertyId) {
+    if (window.goatcounter) {
+        window.goatcounter.count({
+            path: 'like-' + propertyId,
+            title: 'Like ' + propertyId,
+            event: true
+        });
+    }
 
+    alert('❤️ Thank you for liking this property!');
+}
+
+function shareProperty(propertyId) {
+    if (window.goatcounter) {
+        window.goatcounter.count({
+            path: 'share-' + propertyId,
+            title: 'Share ' + propertyId,
+            event: true
+        });
+    }
+
+    if (navigator.share) {
+        navigator.share({
+            title: 'AAA Property Brunei',
+            url: window.location.href
+        });
+    } else {
+        navigator.clipboard.writeText(window.location.href);
+        alert('Property link copied! You can now share it.');
+    }
+}
+</script>
 </body>
 </html>
