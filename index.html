@@ -2080,10 +2080,9 @@ target="_blank">
     
 <div style="text-align:center; padding:20px; font-size:18px;">
 👁️ Views: <span id="visitor-count">...</span>
-    <!-- LikeBtn.com BEGIN -->
-<span class="likebtn-wrapper" data-identifier="AAA-Property-Brunei" data-dislike_enabled="false" data-icon_dislike_show="false" data-counter_zero_show="true"></span>
-<script async src="https://w.likebtn.com/js/w/widget.js"></script>
-<!-- LikeBtn.com END -->
+   <button onclick="likeWebsite()" id="like-button" style="border:1px solid #ccc; background:white; padding:8px 14px; font-size:18px; cursor:pointer; border-radius:5px;">
+👍 Like <span id="like-count">0</span>
+</button>
     <button onclick="copyWebsiteLink()" style="border:none; background:none; font-size:18px; cursor:pointer; margin-left:10px;">
 📤 Share
 </button>
@@ -2116,6 +2115,32 @@ function copyWebsiteLink() {
 <a href="/privacy.html" style="color:white; text-decoration:underline;">Privacy Policy</a>
 
 </footer>
+
+    <script>
+function likeWebsite() {
+    let count = localStorage.getItem("aaaPropertyLikes");
+    count = count ? parseInt(count) : 0;
+
+    if (!localStorage.getItem("aaaPropertyLiked")) {
+        count++;
+        localStorage.setItem("aaaPropertyLikes", count);
+        localStorage.setItem("aaaPropertyLiked", "yes");
+
+        document.getElementById("like-button").innerHTML =
+            "❤️ Liked <span id='like-count'>" + count + "</span>";
+    }
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    let count = localStorage.getItem("aaaPropertyLikes") || 0;
+    document.getElementById("like-count").textContent = count;
+
+    if (localStorage.getItem("aaaPropertyLiked")) {
+        document.getElementById("like-button").innerHTML =
+            "❤️ Liked <span id='like-count'>" + count + "</span>";
+    }
+});
+</script>
 
 </body>
 </html>
