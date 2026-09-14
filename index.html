@@ -2174,27 +2174,42 @@ function likeProperty(propertyId) {
 }
 
 function shareProperty(propertyId) {
-    if (window.goatcounter) {
-        window.goatcounter.count({
-            path: 'share-' + propertyId,
-            title: 'Share ' + propertyId,
-            event: true
-        });
-    }
-const counter = document.getElementById('share-' + propertyId);
 
-if (counter) {
-    let current = parseInt(counter.textContent) || 0;
-    counter.textContent = current + 1;
-}
+    const counter = document.getElementById('share-' + propertyId);
+
+    function recordShare() {
+        if (window.goatcounter) {
+            window.goatcounter.count({
+                path: 'share-' + propertyId,
+                title: 'Share ' + propertyId,
+                event: true
+            });
+        }
+
+        if (counter) {
+            let current = parseInt(counter.textContent) || 0;
+            counter.textContent = current + 1;
+        }
+    }
+
     if (navigator.share) {
         navigator.share({
             title: 'AAA Property Brunei',
             url: window.location.href
+        })
+        .then(function() {
+            recordShare();
+        })
+        .catch(function() {
+            // User cancelled sharing — do not increase counter
         });
+
     } else {
-        navigator.clipboard.writeText(window.location.href);
-        alert('Property link copied! You can now share it.');
+        navigator.clipboard.writeText(window.location.href)
+        .then(function() {
+            recordShare();
+            alert('Property link copied! You can now share it.');
+        });
     }
 }
 </script>
