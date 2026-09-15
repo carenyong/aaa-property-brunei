@@ -2129,65 +2129,64 @@ const supabaseClient = supabase.createClient(
     SUPABASE_KEY
 );
 async function likeProperty(propertyId) {
-
     const likedKey = 'liked-' + propertyId;
 
     if (localStorage.getItem(likedKey)) {
         alert('❤️ You already liked this property.');
         return;
     }
-const { data: existingLike, error: readError } = await supabaseClient
-  .from('property_likes')
-  .select('likes')
-  .eq('property_id', propertyId)
-  .maybeSingle();
 
-if (readError) {
-  alert('Unable to save your like. Please try again.');
-  return;
+    const { data, error } = await supabaseClient
+        .from('property_likes')
+        .select('likes')
+        .eq('property_id', propertyId)
+        .maybeSingle();
+
+    if (error) {
+        console.error(error);
+        alert('Unable to read likes. Please try again.');
+        return;
+    }
+
+    let newLikes = 1;
+
+    if (data) {
+        newLikes = (data.likes || 0) + 1;
+
+        const { error: updateError } = await supabaseClient
+            .from('property_likes')
+            .update({ likes: newLikes })
+            .eq('property_id', propertyId);
+
+        if (updateError) {
+            console.error(updateError);
+            alert('Unable to save your like. Please try again.');
+            return;
+        }
+    } else {
+        const { error: insertError } = await supabaseClient
+            .from('property_likes')
+            .insert({
+                property_id: propertyId,
+                likes: 1
+            });
+
+        if (insertError) {
+            console.error(insertError);
+            alert('Unable to save your like. Please try again.');
+            return;
+        }
+    }
+
+    const counter = document.getElementById('like-' + propertyId);
+
+    if (counter) {
+        counter.textContent = newLikes;
+    }
+
+    localStorage.setItem(likedKey, 'yes');
+    alert('❤️ Thank you for liking this property!');
 }
-
-let newLikes;
-
-if (existingLike) {
-  newLikes = existingLike.likes + 1;
-
-  const { error: updateError } = await supabaseClient
-    .from('property_likes')
-    .update({ likes: newLikes })
-    .eq('property_id', propertyId);
-
-  if (updateError) {
-    alert('Unable to save your like. Please try again.');
-    return;
-  }
-} else {
-  newLikes = 1;
-
-  const { error: insertError } = await supabaseClient
-    .from('property_likes')
-    .insert({
-      property_id: propertyId,
-      likes: 1
-    });
-
-  if (insertError) {
-    alert('Unable to save your like. Please try again.');
-    return;
-  }
-}
-   const counter = document.getElementById('like-' + propertyId);
-
-  if (counter) {
-   
-   counter.textContent = newLikes;
-  }
-
-  localStorage.setItem(likedKey, 'yes');
-
-  alert('❤️ Thank you for liking this property!');
-}
-
 function shareProperty(propertyId) {
 
     const counter = document.getElementById('share-' + propertyId);
