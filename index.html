@@ -2189,14 +2189,12 @@ async function likeProperty(propertyId) {
     alert('❤️ Thank you for liking this property!');
 }
 function shareProperty(propertyId) {
-
     const counter = document.getElementById('share-' + propertyId);
 
-    function recordShare() {
-        if (counter) {
-            let current = parseInt(counter.textContent) || 0;
-            counter.textContent = current + 1;
-        }
+    // Increase the Share number immediately
+    if (counter) {
+        let current = parseInt(counter.textContent) || 0;
+        counter.textContent = current + 1;
     }
 
     const shareData = {
@@ -2206,25 +2204,17 @@ function shareProperty(propertyId) {
     };
 
     if (navigator.share) {
-        navigator.share(shareData)
-            .then(function() {
-                recordShare();
-            })
-            .catch(function() {
-                // Sharing cancelled - do nothing
-            });
-
+        navigator.share(shareData).catch(function() {
+            // User may have cancelled sharing
+        });
     } else if (navigator.clipboard) {
-
         navigator.clipboard.writeText(window.location.href)
             .then(function() {
-                recordShare();
                 alert('Property link copied! You can now share it.');
             })
             .catch(function() {
                 window.prompt('Copy this property link:', window.location.href);
             });
-
     } else {
         window.prompt('Copy this property link:', window.location.href);
     }
