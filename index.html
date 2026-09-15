@@ -2128,6 +2128,27 @@ const supabaseClient = supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+
+        async function loadLikeCounts() {
+    const { data, error } = await supabaseClient
+        .from('property_likes')
+        .select('property_id, likes');
+
+    if (error) {
+        console.error('Unable to load likes:', error);
+        return;
+    }
+
+    data.forEach(item => {
+        const counter = document.getElementById('like-' + item.property_id);
+
+        if (counter) {
+            counter.textContent = item.likes || 0;
+        }
+    });
+}
+
+loadLikeCounts();
 async function likeProperty(propertyId) {
     const likedKey = 'liked-' + propertyId;
 
