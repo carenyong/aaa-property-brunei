@@ -2193,38 +2193,40 @@ function shareProperty(propertyId) {
     const counter = document.getElementById('share-' + propertyId);
 
     function recordShare() {
-        if (window.goatcounter) {
-            window.goatcounter.count({
-                path: 'share-' + propertyId,
-                title: 'Share ' + propertyId,
-                event: true
-            });
-        }
-
         if (counter) {
             let current = parseInt(counter.textContent) || 0;
             counter.textContent = current + 1;
         }
     }
 
+    const shareData = {
+        title: 'AAA Property Brunei',
+        text: 'Check out this property on AAA Property Brunei',
+        url: window.location.href
+    };
+
     if (navigator.share) {
-        navigator.share({
-            title: 'AAA Property Brunei',
-            url: window.location.href
-        })
-        .then(function() {
-            recordShare();
-        })
-        .catch(function() {
-            // User cancelled sharing — do not increase counter
-        });
+        navigator.share(shareData)
+            .then(function() {
+                recordShare();
+            })
+            .catch(function() {
+                // Sharing cancelled - do nothing
+            });
+
+    } else if (navigator.clipboard) {
+
+        navigator.clipboard.writeText(window.location.href)
+            .then(function() {
+                recordShare();
+                alert('Property link copied! You can now share it.');
+            })
+            .catch(function() {
+                window.prompt('Copy this property link:', window.location.href);
+            });
 
     } else {
-        navigator.clipboard.writeText(window.location.href)
-        .then(function() {
-            recordShare();
-            alert('Property link copied! You can now share it.');
-        });
+        window.prompt('Copy this property link:', window.location.href);
     }
 }
 </script>
