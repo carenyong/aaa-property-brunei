@@ -2118,31 +2118,7 @@ function copyWebsiteLink() {
 
 </footer>
 
-    <script>
-function likeWebsite() {
-    let count = localStorage.getItem("aaaPropertyLikes");
-    count = count ? parseInt(count) : 0;
-
-    if (!localStorage.getItem("aaaPropertyLiked")) {
-        count++;
-        localStorage.setItem("aaaPropertyLikes", count);
-        localStorage.setItem("aaaPropertyLiked", "yes");
-
-        document.getElementById("like-button").innerHTML =
-            "❤️ Liked <span id='like-count'>" + count + "</span>";
-    }
-}
-
-document.addEventListener("DOMContentLoaded", function () {
-    let count = localStorage.getItem("aaaPropertyLikes") || 0;
-    document.getElementById("like-count").textContent = count;
-
-    if (localStorage.getItem("aaaPropertyLiked")) {
-        document.getElementById("like-button").innerHTML =
-            "❤️ Liked <span id='like-count'>" + count + "</span>";
-    }
-});
-</script>
+  
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
         const SUPABASE_URL = 'https://kwkghusbgfesvppnvere.supabase.co';
