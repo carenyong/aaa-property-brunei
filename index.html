@@ -28,6 +28,7 @@
      crossorigin="anonymous"></script>
 
 <style>
+    
 
 * { box-sizing: border-box; }
 
@@ -238,6 +239,53 @@ footer {
         grid-column: span 2;
         grid-row: auto;
         height: 260px;
+    }
+}
+
+    /* PROPERTY GUIDE LAYOUT */
+
+#property-guide {
+    padding: 50px 30px;
+}
+
+#property-guide > div {
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: stretch !important;
+}
+
+#property-guide .about-box {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.08);
+}
+
+#property-guide h2 {
+    font-size: 26px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+#property-guide h3 {
+    font-size: 18px;
+    margin-top: 25px;
+    margin-bottom: 8px;
+}
+
+#property-guide p {
+    margin-top: 5px;
+    margin-bottom: 18px;
+    line-height: 1.7;
+}
+
+@media (max-width: 750px) {
+    #property-guide > div {
+        display: block !important;
+    }
+
+    #property-guide .about-box {
+        margin-bottom: 25px;
     }
 }
 
