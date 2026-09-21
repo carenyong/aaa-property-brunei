@@ -2477,6 +2477,11 @@ fetch('https://aaapropertybrunei.goatcounter.com/counter/TOTAL.json?t=' + Date.n
     });
 </script>
     <script>
+        function likeWebsite() {
+    const counter = document.getElementById('like-count');
+    let current = parseInt(counter.textContent) || 0;
+    counter.textContent = current + 1;
+}
 function copyWebsiteLink() {
     navigator.clipboard.writeText(window.location.href)
         .then(function() {
