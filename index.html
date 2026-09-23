@@ -569,7 +569,141 @@ BND $98 per night<br>
 </p>
 
 </div>
+<div class="availability-calendar">
+  <h3>📅 Availability Calendar</h3>
+  <p>Booked dates are marked in red.</p>
+  <div id="daily-pandan-calendar"></div>
+</div><style>
+.availability-calendar {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  background: #fff;
+}
 
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.calendar-header button {
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 5px;
+  text-align: center;
+}
+
+.calendar-day,
+.calendar-date {
+  padding: 8px 4px;
+  border-radius: 5px;
+}
+
+.calendar-day {
+  font-weight: bold;
+}
+
+.calendar-date {
+  border: 1px solid #ddd;
+}
+
+.calendar-date.booked {
+  background: #d9534f;
+  color: white;
+  font-weight: bold;
+}
+
+.calendar-date.past {
+  background: #eee;
+  color: #999;
+}
+</style>
+
+<script>
+const bookedDates = [
+  // Example:
+  // "2026-09-25",
+  // "2026-09-26"
+];
+
+let calendarDate = new Date();
+
+function showPandanCalendar() {
+  const calendar = document.getElementById("daily-pandan-calendar");
+
+  const year = calendarDate.getFullYear();
+  const month = calendarDate.getMonth();
+
+  const monthName = calendarDate.toLocaleString("en", {
+    month: "long",
+    year: "numeric"
+  });
+
+  const firstDay = new Date(year, month, 1).getDay();
+  const totalDays = new Date(year, month + 1, 0).getDate();
+
+  let html = `
+    <div class="calendar-header">
+      <button onclick="changePandanMonth(-1)">◀</button>
+      <strong>${monthName}</strong>
+      <button onclick="changePandanMonth(1)">▶</button>
+    </div>
+
+    <div class="calendar-grid">
+      <div class="calendar-day">Sun</div>
+      <div class="calendar-day">Mon</div>
+      <div class="calendar-day">Tue</div>
+      <div class="calendar-day">Wed</div>
+      <div class="calendar-day">Thu</div>
+      <div class="calendar-day">Fri</div>
+      <div class="calendar-day">Sat</div>
+  `;
+
+  for (let i = 0; i < firstDay; i++) {
+    html += `<div></div>`;
+  }
+
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  for (let day = 1; day <= totalDays; day++) {
+    const date = new Date(year, month, day);
+
+    const dateText =
+      year + "-" +
+      String(month + 1).padStart(2, "0") + "-" +
+      String(day).padStart(2, "0");
+
+    let cssClass = "calendar-date";
+
+    if (bookedDates.includes(dateText)) {
+      cssClass += " booked";
+    } else if (date < today) {
+      cssClass += " past";
+    }
+
+    html += `<div class="${cssClass}">${day}</div>`;
+  }
+
+  html += `</div>`;
+  calendar.innerHTML = html;
+}
+
+function changePandanMonth(amount) {
+  calendarDate.setMonth(calendarDate.getMonth() + amount);
+  showPandanCalendar();
+}
+
+showPandanCalendar();
+</script>
 <div class="gallery daily-pandan-gallery">
 <img src="Pandan1.jpg" alt="Pandan apartment">
 <img src="Pandan2.jpg" alt="Pandan apartment">
